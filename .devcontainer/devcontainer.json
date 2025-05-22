@@ -1,0 +1,38 @@
+{
+	"name": "Rasa Environment",
+	"image": "python:3.10.0-slim",
+	"features": {
+		"ghcr.io/devcontainers/features/git:1": {}
+	},
+	"postCreateCommand": "pip install rasa==3.12.1 rasa-sdk==3.12.0 pydantic==1.10.8 flask==2.3.3 requests==2.31.0 && chmod +x .devcontainer/start-rasa.sh",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance"
+			],
+			"settings": {
+				"python.defaultInterpreterPath": "/usr/local/bin/python",
+				"python.linting.enabled": true,
+				"python.linting.pylintEnabled": true
+			}
+		},
+		"codespaces": {
+			"openFiles": ["README.md"]
+		}
+	},
+	"forwardPorts": [5005, 5055, 5006],
+	"portsAttributes": {
+		"5005": {
+			"label": "Rasa Server",
+			"onAutoForward": "openBrowser"
+		},
+		"5055": {
+			"label": "Actions Server"
+		},
+		"5006": {
+			"label": "Rasa Inspect UI",
+			"onAutoForward": "openBrowser"
+		}
+	}
+} 
