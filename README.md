@@ -18,6 +18,10 @@ This project is configured to work with GitHub Codespaces, providing a fully con
    
    This will automatically start both the Rasa server and the actions server, and open the UI in your browser.
 
+### Important Note
+
+The models directory is not included in this repository. You will need to train your own model using `rasa train` before running the agent.
+
 ### Installation Note
 
 This project uses `uv` for package installation due to its improved performance. If you need to manually install packages:
