@@ -124,7 +124,7 @@ If you prefer local development, follow these steps:
 
 2. **Clone the Repository**
    ```bash
-   git clone https://github.com/yourusername/agent_cue.git
+   git clone https://github.com/shaik-ismail-27/agent_cue.git
    cd agent_cue
    ```
 
