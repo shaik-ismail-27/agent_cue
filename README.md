@@ -18,6 +18,18 @@ This project is configured to work with GitHub Codespaces, providing a fully con
    
    This will automatically start both the Rasa server and the actions server, and open the UI in your browser.
 
+### Installation Note
+
+This project uses `uv` for package installation due to its improved performance. If you need to manually install packages:
+
+```bash
+# Install uv if not already installed
+pip install 'uv[pyproject]'
+
+# Install Rasa Pro with uv
+uv pip install rasa-pro --system
+```
+
 ### Startup Script
 
 For convenience, a startup script is included that will automatically train a model if needed and start Rasa Inspect with proper CORS settings:
@@ -33,8 +45,8 @@ The Codespaces environment is configured to handle CORS issues when accessing th
 ## Environment Details
 
 - Python: 3.10.0
-- Rasa: 3.12.1
-- Rasa SDK: 3.12.0
+- Rasa Pro
+- Package manager: uv
 
 ## Local Development
 
@@ -43,5 +55,6 @@ If you prefer local development, ensure you have Python 3.10 installed and creat
 ```bash
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
+pip install 'uv[pyproject]'
+uv pip install rasa-pro
 ```
