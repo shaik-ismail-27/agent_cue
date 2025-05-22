@@ -7,6 +7,7 @@ echo "Setting up Rasa environment..."
 if ! command -v rasa &> /dev/null; then
   echo "Rasa not found. Installing Rasa Pro..."
   pip install 'uv[pyproject]'
+  uv pip install pydantic>=2.0.0 --system
   uv pip install rasa-pro --system
 fi
 

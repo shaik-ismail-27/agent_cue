@@ -4,7 +4,7 @@
 	"features": {
 		"ghcr.io/devcontainers/features/git:1": {}
 	},
-	"postCreateCommand": "pip install 'uv[pyproject]' && uv pip install rasa-pro --system && uv pip install pydantic==1.10.8 flask==2.3.3 requests==2.31.0 --system && chmod +x .devcontainer/start-rasa.sh",
+	"postCreateCommand": "pip install 'uv[pyproject]' && uv pip install pydantic>=2.0.0 --system && uv pip install rasa-pro --system && uv pip install flask==2.3.3 requests==2.31.0 --system && chmod +x .devcontainer/start-rasa.sh",
 	"customizations": {
 		"vscode": {
 			"extensions": [
