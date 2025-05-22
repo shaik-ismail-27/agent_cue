@@ -18,9 +18,11 @@ This project is configured to work with GitHub Codespaces, providing a fully con
    
    This will automatically start both the Rasa server and the actions server, and open the UI in your browser.
 
-### Important Note
+### Important Notes
 
-The models directory is not included in this repository. You will need to train your own model using `rasa train` before running the agent.
+1. The models directory is not included in this repository. You will need to train your own model using `rasa train` before running the agent.
+
+2. The startup script and Rasa commands must be run from the `agent_cue` directory. The script will automatically try to navigate to the correct directory if needed.
 
 ### Installation Note
 
@@ -41,6 +43,12 @@ For convenience, a startup script is included that will automatically train a mo
 ```bash
 .devcontainer/start-rasa.sh
 ```
+
+The script will:
+- Check and navigate to the correct directory if needed
+- Install Rasa Pro if not already installed
+- Train a model if none exists
+- Start Rasa Inspect with proper CORS settings
 
 ### CORS Configuration
 
