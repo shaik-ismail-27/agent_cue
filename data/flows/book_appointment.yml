@@ -1,0 +1,211 @@
+flows:
+  book_appointment:
+    description: "This flow manages the final stages of booking an appointment. After patient information has been collected and account verification/creation is complete, this flow checks whether payment is required for the selected clinic and service. If payment is needed, it directs the user to the payment flow; if not, it proceeds directly to booking the appointment."
+    persisted_slots:
+      - conform_booking_with_payment
+    steps:
+      - set_slots:
+          - current_flow: "book_appointment"
+      - action: action_check_required_slots_available
+        next:
+          - if: "slots.slots_available == 'success'"
+            then:
+              - action: action_check_booking_payment_requirement
+                next:
+                  - if: "slots.booking_payment_requirement is true"
+                    then:
+                      - collect: conform_booking_with_payment
+                        description: "Confirm booking with payment"
+                        ask_before_filling: true
+                        next:
+                          - if: "slots.conform_booking_with_payment is true"
+                            then:
+                              - link: make_payment
+                          - else:
+                              - action: utter_booking_payment_is_required
+                                next: END
+                  - else:
+                        - link: booking_without_payment
+          - else:
+              - action: utter_cannot_initiate_booking_flow
+              - link: collect_service_type
+                        
+
+
+  booking_after_payment:
+    description: "This flow handles the booking process after payment has been completed. It checks the payment status and proceeds with booking if the payment was successful."
+    persisted_slots:
+      - appointment_action
+      - appointment_date
+      - appointment_time
+    steps:
+      - set_slots:
+          - current_flow: "booking_after_payment"
+      - action: action_check_required_slots_available
+        next:
+          - if: "slots.slots_available == 'success'"
+            then:
+              - action: action_check_payment_status
+                next:
+                  - if: "slots.payment_status == 'success' and slots.selected_service_type == 'general_health'"
+                    then:
+                      - action: action_book_general_checkup_appointment
+                        next:
+                          - if: "slots.booking_status == 'success'"
+                            then:
+                              - action: action_end_booking_process
+                              - action: action_reset_slots
+                                next: END
+                          - if: "slots.booking_status == 'failed' and slots.reached_clinic == 'success' and slots.rescheduling_reason is true"
+                            then:
+                              - collect: appointment_action
+                                description: "Appointment action"
+                                ask_before_filling: true
+                                next:
+                                  - if: "slots.appointment_action == 'reschedule'"
+                                    then:
+                                      - collect: appointment_date
+                                        description: "Appointment date"
+                                        ask_before_filling: true
+                                      - collect: appointment_time
+                                        description: "Appointment time"
+                                        ask_before_filling: true
+                                      - link: booking_after_payment
+                                  - else:
+                                      - action: utter_appointment_booking_cancelled
+                                        next: END
+                          - else:
+                              - action: utter_server_unavailable
+                              - action: action_reset_slots
+                                next: END
+                  - if: "slots.payment_status == 'success' and slots.selected_service_type == 'specialized'"
+                    then:
+                      - action: action_book_specialist_appointment
+                        next:
+                          - if: "slots.booking_status == 'success'"
+                            then:
+                              - action: action_end_booking_process
+                              - action: action_reset_slots
+                                next: END
+                          - if: "slots.booking_status == 'failed' and slots.reached_clinic == 'success' and slots.rescheduling_reason is true"
+                            then:
+                              - collect: appointment_action
+                                description: "Appointment action"
+                                ask_before_filling: true
+                                next:
+                                  - if: "slots.appointment_action == 'reschedule'"
+                                    then:
+                                      - collect: appointment_date
+                                        description: "Appointment date"
+                                        ask_before_filling: true
+                                      - collect: appointment_time
+                                        description: "Appointment time"
+                                        ask_before_filling: true
+                                      - link: booking_after_payment
+                                  - else:
+                                      - action: utter_appointment_booking_cancelled
+                                        next: END
+                          - if: "slots.unknown_error is true"
+                            then:
+                              - action: utter_unknown_error
+                              - action: action_reset_slots
+                                next: END
+                          - else:
+                              - action: utter_server_unavailable
+                              - action: action_reset_slots
+                                next: END
+                  - else:
+                      - action: utter_payment_unsuccessful
+                        next: END
+          - else:
+              - action: utter_cannot_initiate_booking_flow
+              - link: collect_service_type
+
+  booking_without_payment:
+    description: "This flow handles the booking process without payment. It directlyproceeds with booking"
+    persisted_slots:
+      - appointment_action
+      - appointment_date
+      - appointment_time
+    steps:
+      - set_slots:
+          - current_flow: "booking_without_payment"
+      - action: action_check_required_slots_available
+        next:
+          - if: "slots.slots_available == 'success'"
+            then:
+              - set_slots:
+                  - booking_payment_requirement: "false"
+                next:
+                  - if: "slots.selected_service_type == 'general_health'"
+                    then:
+                      - action: action_book_general_checkup_appointment
+                        next:
+                          - if: "slots.booking_status == 'success'"
+                            then:
+                              - action: action_end_booking_process
+                              - action: action_reset_slots
+                                next: END
+                          - if: "slots.booking_status == 'failed' and slots.reached_clinic == 'success' and slots.rescheduling_reason is true"
+                            then:
+                              - collect: appointment_action
+                                description: "Appointment action"
+                                ask_before_filling: true
+                                next:
+                                  - if: "slots.appointment_action == 'reschedule'"
+                                    then:
+                                      - collect: appointment_date
+                                        description: "Appointment date"
+                                        ask_before_filling: true
+                                      - collect: appointment_time
+                                        description: "Appointment time"
+                                        ask_before_filling: true
+                                      - link: booking_without_payment
+                                  - else:
+                                      - action: utter_appointment_booking_cancelled
+                                        next: END
+                          - else:
+                              - action: utter_server_unavailable
+                                next: END
+                  - if: "slots.selected_service_type == 'specialized'"
+                    then:
+                      - action: action_book_specialist_appointment
+                        next:
+                          - if: "slots.booking_status == 'success'"
+                            then:
+                              - action: utter_appointment_success
+                              - action: action_reset_slots
+                                next: END
+                          - if: "slots.booking_status == 'failed' and slots.reached_clinic == 'success' and slots.rescheduling_reason is true"
+                            then:
+                              - collect: appointment_action
+                                description: "Appointment action"
+                                ask_before_filling: true
+                                next:
+                                  - if: "slots.appointment_action == 'reschedule'"
+                                    then:
+                                      - collect: appointment_date
+                                        description: "Appointment date"
+                                        ask_before_filling: true
+                                      - collect: appointment_time
+                                        description: "Appointment time"
+                                        ask_before_filling: true
+                                      - link: booking_without_payment
+                                  - else:
+                                      - action: utter_appointment_booking_cancelled
+                                        next: END
+                          - if: "slots.unknown_error is true"
+                            then:
+                              - action: utter_unknown_error
+                              - action: action_reset_slots
+                                next: END
+                          - else:
+                              - action: utter_server_unavailable
+                              - action: action_reset_slots
+                                next: END
+                  - else:
+                      - action: utter_invalid_service_type
+                        next: END
+          - else:
+              - action: utter_cannot_initiate_booking_flow
+              - link: collect_service_type

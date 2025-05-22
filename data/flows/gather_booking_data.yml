@@ -1,0 +1,61 @@
+flows:
+  gather_booking_data:
+    description: "This flow is responsible for gathering essential patient information and managing the transition to account verification or creation as part of the appointment process. After a user has selected a clinic and an available appointment slot, this flow collects the patient's full name and age, ensuring that the booking is personalized and accurate. It then determines whether the user already has an account with the clinic or service by asking a direct question. Based on the user's response, the flow either initiates the account verification process for existing users or guides new users through account creation."
+    persisted_slots:
+      - patient_name
+      - patient_age
+      - account_info
+      - create_account_with_payment_permission
+      - create_account_permission
+
+    steps:
+      - set_slots:
+          - current_flow: gather_booking_data
+      - action: action_check_required_slots_available
+        next:
+          - if: "slots.slots_available == 'success'"
+            then:
+              - collect: patient_name
+                description: "This slot is used to collect the Patient's full name"
+                ask_before_filling: true
+              - collect: patient_age
+                description: "This slot is used to collect the Patient's age"
+                ask_before_filling: true
+              - collect: account_info
+                description: "This slot only set the value of account_info to true or false."
+                ask_before_filling: true
+                next:
+                  - if: "slots.account_info is true"
+                    then:
+                      - link: start_account_authentication
+                  - if: "slots.account_info is false"
+                    then:
+                      - action: action_check_account_payment_method_needed
+                        next:
+                          - if: "slots.payment_required is true"
+                            then:
+                              - collect: create_account_with_payment_permission
+                                description: "Permission to create a new account with payment"
+                                next:
+                                  - if: "slots.create_account_with_payment_permission is true"
+                                    then:
+                                      - link: start_account_creation
+                                  - else:
+                                      - action: utter_account_creation_cancelled
+                                        next: END
+                          - else:
+                              - collect: create_account_permission
+                                description: "Permission to create a new account"
+                                next:
+                                  - if: "slots.create_account_permission is true"
+                                    then:
+                                      - link: start_account_creation
+                                  - else:
+                                      - action: utter_account_creation_cancelled
+                                        next: END
+                  - else:
+                      - action: utter_invalid_response
+                        next: END
+          - else:
+              - action: utter_cannot_initiate_gather_booking_data_flow
+              - link: collect_service_type

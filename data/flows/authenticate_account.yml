@@ -1,0 +1,101 @@
+flows:
+  start_account_authentication:
+    description: "This flow handles the critical step of account verification and creation within the appointment process. After collecting the patient's basic information, the flow prompts the user to provide their registered phone number and a one-time password (OTP) for secure verification. If the account is successfully verified, the user is informed and seamlessly transitioned to the booking process which will handle payment checking and appointment booking. If verification fails or the user does not have an account, the flow initiates the account creation process, ensuring that all users—whether new or returning—can proceed with their booking. This flow is designed to maintain security and compliance, while also providing a user-friendly experience by guiding users through each necessary step. By modularizing account management, the flow supports both straightforward verifications and more complex account creation scenarios, ensuring that all users can access health checkup services efficiently and securely."
+    persisted_slots:
+      - registered_phone_number
+    steps:
+      - set_slots:
+          - current_flow: start_account_authentication
+      - action: action_check_required_slots_available
+        next:
+          - if: "slots.slots_available == 'success'"
+            then:
+              - collect: registered_phone_number
+                description: "Registered phone number"
+                ask_before_filling: true
+              - action: action_verify_account
+                next:
+                  - if: "slots.auth_initiated is true"
+                    then:
+                      - link: auth_otp_handler
+                  - if: "slots.reached_clinic =='success' and slots.user_not_found == 'success'"
+                    then:
+                      - action: utter_user_account_not_found
+                      - collect: account_auth_retry_type
+                        description: "Account authentication retry type"
+                        ask_before_filling: true
+                        next:
+                          - if: "slots.account_auth_retry_type == 'new_phone_number'"
+                            then:
+                              - link: start_account_authentication
+                          - else:
+                              - action: utter_account_authentication_retry_failed
+                                next: END
+                  - if: "slots.unknown_error is true"
+                    then:
+                      - action: utter_unknown_error
+                      - action: action_reset_slots
+                        next: END
+                  - else:
+                        - action: utter_server_unavailable
+                        - action: action_reset_slots
+                          next: END
+          - else:
+              - action: utter_cannot_initiate_authentication_flow
+              - link: collect_service_type
+
+
+  auth_otp_handler:
+    description: "This flow handles the account authentication OTP."
+    persisted_slots:
+      - account_auth_otp_action
+    steps:
+      - set_slots:
+          - current_flow: auth_otp_handler
+      - action: action_check_required_slots_available
+        next:
+          - if: "slots.slots_available == 'success'"
+            then:
+              - collect: account_auth_otp_action
+                description: "This slot collect the otp action such as cancel(to cancel the otp request) or resend(to resend the otp) or the actual otp numbers(to verify the otp)"
+                ask_before_filling: true
+                next:
+                  - if: "slots.account_auth_otp_action =='cancel' "
+                    then:
+                      - action: utter_account_authentication_cancelled
+                        next: END
+                  - if: "slots.account_auth_otp_action =='resend'"
+                    then:
+                      - action: action_resend_account_auth_otp
+                      - link: auth_otp_handler
+                  - if: "slots.account_auth_otp_action"
+                    then:
+                      - action: action_verify_account
+                        next:
+                          - if: "slots.authentication_status == 'success'"
+                            then:
+                              - action: utter_account_verified
+                              - link: book_appointment
+                          - if: "slots.reached_clinic == 'error'"
+                            then:
+                              - action: utter_server_unavailable
+                              - action: action_reset_slots
+                                next: END
+                          - if: "slots.reached_clinic == 'success' and slots.otp_status == 'error'"
+                            then:
+                              - action: utter_account_authentication_failed
+                              - link: auth_otp_handler
+                          - else:
+                              - action: utter_invalid_user
+                                next: END
+                  - if: "slots.unknown_error is true"
+                    then:
+                      - action: utter_unknown_error
+                      - action: action_reset_slots
+                        next: END
+                  - else:
+                      - action: utter_invalid_otp_action
+                        next: END
+          - else:
+              - action: utter_cannot_initiate_authentication_flow
+              - link: collect_service_type

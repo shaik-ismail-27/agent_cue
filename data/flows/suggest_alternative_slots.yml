@@ -1,0 +1,57 @@
+flows:
+  suggest_alternative_slots:
+    description: "This flow is dedicated to handling situations where a user's initially requested appointment slot is unavailable during the booking process. When a slot conflict occurs, the flow triggers an action to suggest alternative available time slots, presenting the user with a set of options to choose from. The user is then prompted to select one of the alternative slots, and the system checks the availability of the newly selected time. If the new slot is available, the flow seamlessly transitions the user back to the main booking process."
+    persisted_slots:
+      - selected_option
+    steps:
+      - set_slots:
+          - current_flow: suggest_alternative_slots
+      - action: action_check_required_slots_available
+        next:
+          - if: "slots.slots_available == 'success'"
+            then:
+              - action: action_suggest_alternative_time_slots
+                next:
+                  - if: "slots.get_alternative == 'alternatives_found'"
+                    then:
+                      - id: selected_option
+                        collect: selected_option
+                        description: "User selects one of the alternative time options"
+                        ask_before_filling: true
+                        next:
+                          - if: "slots.selected_option"
+                            then:
+                              - action: action_process_selected_slot
+                                next:
+                                  - if: "slots.is_available == 'time_selected'"
+                                    then:
+                                      - action: action_check_appointment_slot
+                                        next:
+                                          - if: "slots.is_available == 'available'"
+                                            then:
+                                              - link: gather_booking_data
+                                          - else:
+                                              - action: utter_slot_unavailable
+                                                next: END
+                                  - else:
+                                      - action: utter_ask_selected_option
+                                        next: selected_option
+                          - else:
+                              - action: action_suggest_alternative_time_slots
+                                next: selected_option
+                  - if: "slots.reached_clinic == 'success' and slots.get_alternative == 'error'"
+                    then:
+                      - action: utter_slot_unavailable
+                        next: END
+                  - if: "slots.unknown_error is true"
+                    then:
+                      - action: utter_unknown_error
+                      - action: action_reset_slots
+                        next: END
+                  - else:
+                      - action: utter_server_unavailable
+                      - action: action_reset_slots
+                        next: END
+          - else:
+              - action: utter_cannot_initiate_appointment_scheduling_flow
+              - link: collect_service_type

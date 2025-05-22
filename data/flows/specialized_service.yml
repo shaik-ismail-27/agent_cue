@@ -1,0 +1,32 @@
+flows:
+  specialized_service:
+    description: "This flow serves as the entry point for users seeking to book a specialized service appointment. It collects the user's preferred specialized service type, city, and state to recommend suitable clinics. The flow then searches for available clinics offering the selected specialized service in the specified area."
+    persisted_slots:
+      - city
+      - state
+      - specialized_service
+      - selected_service_type
+    steps:
+      - set_slots:
+          - selected_service_type: specialized
+      - collect: specialized_service
+        description: "Type of specialized medical service needed"
+      - call: get_location
+      - action: action_recommend_specialist_clinics
+        next:
+          - if: "slots.clinic_recommendation_status == 'success'"
+            then:
+              - link: clinic_selection
+          - if: "slots.clinic_recommendation_status == 'clinic_at_location_not_found' and slots.reached_clinic == 'success'"
+            then:
+              - action: utter_no_clinics_available
+              - link: collect_service_type
+          - if: "slots.unknown_error is true"
+            then:
+              - action: utter_unknown_error
+              - action: action_reset_slots
+                next: END
+          - else:
+              - action: utter_service_not_available
+              - action: action_reset_slots
+                next: END

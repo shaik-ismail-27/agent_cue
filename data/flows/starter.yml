@@ -1,0 +1,35 @@
+flows:
+  greeting:
+    description: "This flow handles Greetings(hi,hello,hey) messages"
+    name: "greeting flow"
+    steps:
+      - action: "utter_welcome"
+      - link: "collect_service_type"
+
+  collect_service_type:
+    description: "collects the service type(general_health or specialized) from the user and starts the appropriate flow"
+    persisted_slots:
+      - selected_service_type
+    steps:
+      - id: "collect_service_type"
+        collect: selected_service_type
+        description: "Type of medical service needed (general_health or specialized)"
+        next:
+          - if: "slots.selected_service_type == 'general_health'"
+            then:
+              - link: "general_health_checkup"
+          - if: "slots.selected_service_type == 'specialized'"
+            then:
+              - link: "specialized_service"
+          - if: "slots.unknown_error is true"
+            then:
+              - action: "utter_unknown_error"
+              - action: "action_reset_slots"
+                next: END
+          - else:
+              - action: "utter_invalid_service_type"
+                next: "collect_service_type"
+              
+
+  
+  

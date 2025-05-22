@@ -1,0 +1,5 @@
+rasa==3.6.11
+rasa-sdk==3.6.1
+pydantic==1.10.8
+flask==2.3.3
+requests==2.31.0 

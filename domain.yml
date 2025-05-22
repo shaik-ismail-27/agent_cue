@@ -1,0 +1,915 @@
+version: "3.1"
+
+slots:
+  # Service Selection Slots
+  selected_service_type:
+    type: text
+    mappings:
+      - type: from_llm
+
+  specialized_service:
+    type: text
+    mappings:
+      - type: from_llm
+
+  # Location/Clinic Slots
+  location:
+    type: text
+    mappings:
+      - type: from_llm
+
+  city:
+    type: text
+    mappings:
+      - type: from_llm
+
+  state:
+    type: text
+    mappings:
+      - type: from_llm
+
+  selected_clinic:
+    type: text
+    mappings:
+      - type: from_llm
+
+  displayed_clinics:
+    type: list
+    mappings:
+      - type: from_llm
+
+  clinics_fees:
+    type: list
+    mappings:
+      - type: from_llm
+
+  clinic_fee:
+    type: float
+    mappings:
+      - type: from_llm
+
+  invalid_clinic:
+    type: bool
+    mappings:
+      - type: from_llm
+
+  invalid_clinic_name:
+    type: bool
+    mappings:
+      - type: from_llm
+
+  invalid_clinic_number:
+    type: bool
+    mappings:
+      - type: from_llm
+  
+  reached_clinic:
+    type: text
+    mappings:
+      - type: from_llm
+
+  # Appointment Scheduling Slots
+  appointment_date:
+    type: text
+    mappings:
+      - type: from_llm
+
+  appointment_time:
+    type: text
+    mappings:
+      - type: from_llm
+
+  new_appointment_time:
+    type: text
+    mappings:
+      - type: from_llm
+
+  available_slots:
+    type: list
+    mappings:
+      - type: from_llm
+
+  time_slots:
+    type: list
+    mappings:
+      - type: from_llm
+
+  is_available:
+    type: text
+    mappings:
+      - type: from_llm
+
+  date_time_finalized:
+    type: bool
+    mappings:
+      - type: from_llm
+
+  option_1_title:
+    type: text
+    mappings:
+      - type: from_llm
+
+  option_2_title:
+    type: text
+    mappings:
+      - type: from_llm
+
+  option_3_title:
+    type: text
+    mappings:
+      - type: from_llm
+
+  selected_option:
+    type: text
+    mappings:
+      - type: from_llm
+
+  get_alternative:
+    type: text
+    mappings:
+      - type: from_llm
+
+  # Account Management Slots
+  has_account:
+    type: bool
+    mappings:
+      - type: from_llm
+
+  account_info:
+    type: bool
+    mappings:
+      - type: from_llm
+
+  user_name:
+    type: text
+    mappings:
+      - type: from_llm
+
+  user_age:
+    type: text
+    mappings:
+      - type: from_llm
+
+  user_phone_number:
+    type: text
+    mappings:
+      - type: from_llm
+
+  patient_name:
+    type: text
+    mappings:
+      - type: from_llm
+
+  patient_age:
+    type: text
+    mappings:
+      - type: from_llm
+
+  create_account_permission:
+    type: bool
+    mappings:
+      - type: from_llm
+
+  create_account_with_payment_permission:
+    type: bool
+    mappings:
+      - type: from_llm
+
+  account_creation:
+    type: text
+    mappings:
+      - type: from_llm
+
+  user_exists:
+    type: bool
+    mappings:
+      - type: from_llm
+
+  # Authentication Slots
+  registered_phone_number:
+    type: text
+    mappings:
+      - type: from_llm
+
+  authentication_status:
+    type: text
+    mappings:
+      - type: from_llm
+
+  auth_initiated:
+    type: bool
+    mappings:
+      - type: from_llm
+
+  account_auth_otp_action:
+    type: text
+    mappings:
+      - type: from_llm
+
+  account_auth_retry_type:
+    type: text
+    mappings:
+      - type: from_llm
+
+  otp:
+    type: text
+    mappings:
+      - type: from_llm
+
+  return_value:
+    type: bool
+    mappings:
+      - type: from_llm
+
+  user_not_found:
+    type: bool
+    mappings:
+      - type: from_llm
+
+  # Payment Related Slots
+  payment_required:
+    type: bool
+    mappings:
+      - type: from_llm
+
+  booking_payment_requirement:
+    type: bool
+    mappings:
+      - type: from_llm
+
+  payment_method:
+    type: text
+    mappings:
+      - type: from_llm
+
+  request_payment:
+    type: text
+    mappings:
+      - type: from_llm
+
+  payment_status:
+    type: text
+    mappings:
+      - type: from_llm
+
+  payment_amount:
+    type: float
+    mappings:
+      - type: from_llm
+
+  payment_otp:
+    type: text
+    mappings:
+      - type: from_llm
+
+  payment_card_type:
+    type: text
+    mappings:
+      - type: from_llm
+
+  payment_card_last4:
+    type: text
+    mappings:
+      - type: from_llm
+
+  payment_retry_type:
+    type: text
+    mappings:
+      - type: from_llm
+
+  card_holder_name:
+    type: text
+    mappings:
+      - type: from_llm
+
+  card_number:
+    type: text
+    mappings:
+      - type: from_llm
+
+  card_expiry_month:
+    type: text
+    mappings:
+      - type: from_llm
+
+  card_expiry_year:
+    type: text
+    mappings:
+      - type: from_llm
+
+  card_cvv:
+    type: text
+    mappings:
+      - type: from_llm
+
+  transaction_id:
+    type: text
+    mappings:
+      - type: from_llm
+
+  nsf:
+    type: bool
+    mappings:
+      - type: from_llm
+
+  otp_status:
+    type: text
+    mappings:
+      - type: from_llm
+
+  # Booking Process Slots
+  conform_booking:
+    type: bool
+    mappings:
+      - type: from_llm
+
+  conform_booking_with_payment:
+    type: bool
+    mappings:
+      - type: from_llm
+
+  booking_status:
+    type: text
+    mappings:
+      - type: from_llm
+
+  is_success:
+    type: bool
+    mappings:
+      - type: from_llm
+
+  appointment_action:
+    type: text
+    mappings:
+      - type: from_llm
+
+  rescheduling_reason:
+    type: bool
+    mappings:
+      - type: from_llm
+
+  # Status/Progress Slots
+  current_flow:
+    type: text
+    mappings:
+      - type: from_llm
+
+  clinic_recommendation_status:
+    type: text
+    mappings:
+      - type: from_llm
+
+  slots_available:
+    type: text
+    mappings:
+      - type: from_llm
+
+  slots_progress:
+    type: text
+    mappings:
+      - type: from_llm
+
+  missing_slots:
+    type: list
+    mappings:
+      - type: from_llm
+  
+  unknown_error:
+    type: bool
+    mappings:
+      - type: from_llm
+
+actions:
+  # Slot Management Actions
+  - action_check_required_slots_available
+  - action_reset_slots
+
+  # Clinic/Service Selection Actions
+  - action_recommend_general_checkup_clinics
+  - action_recommend_specialist_clinics
+  - action_validate_clinic_selection
+  - action_set_city_state
+  - action_get_clinic_fee
+
+  # Appointment Scheduling Actions
+  - action_validate_appointment_date
+  - action_check_appointment_slot
+  - action_suggest_alternative_time_slots
+  - action_process_selected_slot
+
+  # Account Management Actions
+  - action_check_account_creation_status
+  - action_create_account
+  - action_check_account_payment_method_needed
+
+  # Authentication Actions
+  - action_verify_account
+  - action_check_auth_status
+  - action_resend_auth_otp
+  - action_resend_auth_otp_retry
+  - action_resend_account_auth_otp
+
+  # Payment Related Actions
+  - action_check_payment_method_status
+  - action_check_booking_payment_requirement
+  - action_check_payment_status
+  - action_add_payment_method
+  - action_make_payment
+  - action_verify_payment_otp
+  - action_send_payment_request
+
+  # Booking Process Actions
+  - action_book_general_checkup_appointment
+  - action_book_specialist_appointment
+  - action_end_booking_process
+
+  # Welcome and Introduction Messages
+  - utter_welcome
+  - utter_goodbye
+  - utter_unknown_error
+  - utter_clarify_flow_sequence
+
+  # Service Selection Related
+  - utter_ask_selected_service_type
+  - utter_ask_specialized_service
+  - utter_service_not_available
+  - utter_invalid_service_type
+  - utter_cannot_initiate_clinic_selection_flow
+
+  # Location and Clinic Selection
+  - utter_ask_location
+  - utter_ask_city
+  - utter_ask_state
+  - utter_display_available_clinics
+  - utter_ask_selected_clinic
+  - utter_confirm_selected_clinic
+  - utter_clinic_selection_required
+  - utter_no_clinics_available
+  - utter_having_trouble_reaching_clinic
+
+  # Appointment Scheduling
+  - utter_ask_appointment_date
+  - utter_ask_appointment_time
+  - utter_collect_appointment_date
+  - utter_collect_appointment_time
+  - utter_inform_slot_available
+  - utter_slot_unavailable
+  - utter_ask_new_appointment_time
+  - utter_ask_selected_time_option
+  - utter_ask_selected_option
+
+  # Account Management
+  - utter_ask_has_account
+  - utter_ask_user_info_for_account_creation
+  - utter_ask_user_name
+  - utter_ask_user_age
+  - utter_ask_user_phone_number
+  - utter_ask_patient_name
+  - utter_ask_patient_age
+  - utter_ask_account_info
+  - utter_ask_create_account_permission
+  - utter_ask_create_account_with_payment_permission
+  - utter_ask_otp
+  - utter_account_creation_failed
+  - utter_account_creation_cancelled
+  - utter_account_created
+  - utter_cannot_initiate_gather_booking_data_flow
+  - utter_cannot_initiate_account_creation_flow
+  - utter_invalid_user
+
+  # Authentication Related
+  - utter_ask_registered_phone_number
+  - utter_ask_account_auth_otp
+  - utter_ask_account_auth_otp_action
+  - utter_account_authentication_failed
+  - utter_account_authentication_cancelled
+  - utter_account_verified
+  - utter_incorrect_otp
+  - utter_invalid_otp_action
+  - utter_user_account_not_found
+  - utter_verify_account_creation
+  - utter_account_verification_failed
+  - utter_authentication_failed
+  - utter_account_authentication_retry_failed
+  - utter_ask_account_auth_retry_type
+  - utter_cannot_initiate_authentication_flow
+
+  # Payment Related
+  - utter_ask_for_adding_payment_method
+  - utter_ask_payment_otp
+  - utter_ask_card_holder_name
+  - utter_ask_card_number
+  - utter_ask_card_expiry_month
+  - utter_ask_card_expiry_year
+  - utter_ask_card_cvv
+  - utter_payment_success
+  - utter_payment_failed
+  - utter_payment_unsuccessful
+  - utter_specialized_service_payment_failed
+  - utter_booking_with_payment_confirm
+  - utter_payment_collection_failed
+  - utter_payment_method_added
+  - utter_invalid_payment_otp
+  - utter_payment_request_failed
+  - utter_insufficient_funds
+  - utter_cannot_initiate_payment_flow
+
+  # Booking Confirmation
+  - utter_ask_for_booking
+  - utter_need_booking_info
+  - utter_booking_without_payment_confirm
+  - utter_conform_booking_with_payment
+  - utter_conform_booking_without_payment
+  - utter_appointment_success
+  - utter_appointment_failed
+  - utter_specialized_service_appointment_success
+  - utter_specialized_service_appointment_failed
+  - utter_booking_cancellation
+  - utter_cannot_initiate_booking_flow
+  - utter_appointment_booking_cancelled
+  - utter_ask_appointment_action
+
+  # Error and Status Messages
+  - utter_server_unavailable
+  - utter_ask_reason_out_of_scope
+  - utter_invalid_response
+  - utter_booking_payment_is_required
+  - utter_ask_payment_retry_type
+
+responses:
+  # Welcome and Introduction Messages
+  utter_welcome:
+    - text: "Hey there, I am Cue, an appointment booking agent. I can help you book an appointment."
+
+  utter_goodbye:
+    - text: "Thank you for using our service. Have a great day!"
+
+  utter_unknown_error:
+    - text: "An unknown error occurred. Please try again later."
+
+  utter_cannot_initiate_account_creation_flow:
+    - text: "I don't create accounts on their own, but I can help you book an appointment with clinics in my network. If you don't have an account yet, I'll guide you through creating one as part of the booking process."
+
+  utter_clarify_flow_sequence:
+    - text: "Let's start by selecting a clinic type first. Once we've done that, I'll assist you with creating an account."
+
+
+  # Service Selection Related
+  utter_ask_selected_service_type:
+    - text: "What type of service are you looking for?"
+      buttons:
+        - payload: "/SetSlots(selected_service_type=general_health)"
+          title: "General Health Checkup"
+        - payload: "/SetSlots(selected_service_type=specialized)"
+          title: "Specialized Service"
+
+  utter_ask_specialized_service:
+    - text: "What type of specialized medical service do you need? (e.g., cardiology, dermatology, etc.)."
+
+  utter_service_not_available:
+    - text: "Sorry, this service is not available in your area."
+
+  utter_invalid_service_type:
+    - text: "Sorry, I didn't understand your response. Please try again."
+
+
+  # Location and Clinic Selection
+  utter_ask_location:
+    - text: "Which city and state (e.g., 'Mumbai', 'Maharashtra') would you like to book your appointment in?"
+
+  utter_ask_city:
+    - text: "Please enter the desired city of the clinic."
+
+  utter_ask_state:
+    - text: "Please enter the state of that clinic."
+
+  utter_display_available_clinics:
+    - text: "Here are the available clinics in your area."
+
+  utter_ask_selected_clinic:
+    - text: "Please select a clinic by clinic's name or s.no from the options provided."
+
+  utter_confirm_selected_clinic:
+    - text: "You've selected {selected_clinic}. Great choice! Let's proceed with booking your appointment."
+
+  utter_clinic_selection_required:
+    - text: "Please select a clinic to proceed with the booking."
+
+  utter_invalid_clinic_name_selection:
+    - text: "Sorry, I couldn't find a clinic named '{selected_clinic}'. Please select from the displayed clinics."
+
+  utter_invalid_clinic_number_selection:
+    - text: "Could not process clinic selection. Please select a number between 1 and {len(displayed_clinics)}."
+
+  utter_no_clinics_available:
+    - text: "I apologize, but I couldn't find any clinics in my network in your area at the moment."
+
+  utter_having_trouble_reaching_clinic:
+    - text: "I apologize, but I couldn't reach the clinic. Please try again later."
+
+  utter_cannot_initiate_clinic_selection_flow:
+    - text: "You can select clinic as a part of the the booking process.Please select the service type first."
+
+
+  # Appointment Scheduling
+  utter_ask_appointment_date:
+    - text: "Please enter your preferred appointment date (e.g., DD-MM-YYYY)."
+
+  utter_ask_appointment_time:
+    - text: "Please enter your preferred appointment time (e.g., HH:MM AM/PM).Specify the time in AM/PM format.If you don't times before 12 will be considered AM and 12 and above will be considered as PM."
+
+  utter_collect_appointment_date:
+    - text: "Please provide your preferred appointment date."
+
+  utter_collect_appointment_time:
+    - text: "Please provide your preferred appointment time."
+
+  utter_inform_slot_available:
+    - text: "Great! The selected time slot is available."
+
+  utter_slot_unavailable:
+    - text: "Sorry, this time slot is not available. Please select a different time."
+
+  utter_ask_new_appointment_time:
+    - text: "Please select one of the alternative appointment times shown above by typing the exact time (e.g., '11:30 AM')."
+
+  utter_ask_selected_time_option:
+    - text: "Please select one of the alternative time options by clicking a button."
+
+  utter_ask_selected_option:
+    - text: "Unfortunately the selected time slot is unavailable. Please select one of these alternative times."
+      buttons:
+        - payload: "/SetSlots(selected_option='1')"
+          title: "{option_1_title}"
+        - payload: "/SetSlots(selected_option='2')"
+          title: "{option_2_title}"
+        - payload: "/SetSlots(selected_option='3')"
+          title: "{option_3_title}"
+
+  utter_cannot_initiate_appointment_scheduling_flow:
+    - text: "You need to select the clinic first to get the available slots."
+
+  # Account Management
+  utter_ask_has_account:
+    - text: "Do you already have an account with us?"
+
+  utter_ask_user_info_for_account_creation:
+    - text: "Please provide your information to create an account."
+
+  utter_ask_user_name:
+    - text: "Please enter your full name."
+
+  utter_ask_user_age:
+    - text: "Please enter your age."
+
+  utter_ask_user_phone_number:
+    - text: "Please enter your phone number with country code(e.g., +91 XXXXXXXXXX)."
+
+  utter_ask_patient_name:
+    - text: "Please provide the patient's name."
+
+  utter_ask_patient_age:
+    - text: "Please provide the patient's age."
+
+  utter_ask_account_info:
+    - text: "Do you already have a {selected_clinic} account? if yes, and you're having trouble with password or card,you can access your account via OTP or try a different card."
+      buttons:
+        - payload: "/SetSlots(account_info=true)"
+          title: "Yes, I have an account"
+        - payload: "/SetSlots(account_info=false)"
+          title: "No, I don't have an account"
+
+  utter_ask_create_account_permission:
+    - text: "Would you like to create a new account to continue with your booking?"
+      buttons:
+        - payload: "/SetSlots(create_account_permission=true)"
+          title: "Yes, create account"
+        - payload: "/SetSlots(create_account_permission=false)"
+          title: "No, cancel"
+
+  utter_ask_create_account_with_payment_permission:
+    - text: "{selected_clinic} requires to add card information while creating an account. Do you want to proceed?"
+      buttons:
+        - payload: "/SetSlots(create_account_with_payment_permission=true)"
+          title: "Yes, create account"
+        - payload: "/SetSlots(create_account_with_payment_permission=false)"
+          title: "No, cancel"
+
+  utter_ask_otp:
+    - text: "An OTP has been sent to your phone number {user_phone_number}. Please enter it to verify your phone number."
+
+  utter_account_creation_failed:
+    - text: "Sorry, we couldn't create your account. Please try again."
+
+  utter_invalid_otp:
+    - text: "The OTP you entered is invalid. Please try again."
+
+  utter_invalid_user:
+    - text: "phone number and otp doesn't match"
+
+  utter_account_creation_cancelled:
+    - text: "Account creation cancelled."
+
+  utter_account_created:
+    - text: "Your account has been created successfully!"
+
+  utter_user_exists:
+    - text: "User already exists. Please try to login with your phone number."
+
+
+  # Authentication Related
+  utter_ask_registered_phone_number:
+    - text: "Please enter your registered phone number with {selected_clinic} including country code(e.g., +91 XXXXXXXXXX)."
+
+  utter_ask_account_auth_otp:
+    - text: "Please provide the otp you received to verify your account."
+
+  utter_ask_account_auth_otp_action:
+    - text: "Please provide the OTP you received to verify your account or select the one of the options below."
+      buttons:
+        - payload: "/SetSlots(account_auth_otp_action=resend)"
+          title: "Resend OTP"
+        - payload: "/SetSlots(account_auth_otp_action=cancel)"
+          title: "Cancel"
+
+  utter_account_authentication_failed:
+    - text: "Sorry, we couldn't verify your account. Please check the OTP and try again."
+
+  utter_account_authentication_cancelled:
+    - text: "Account authentication cancelled."
+
+  utter_account_verified:
+    - text: "Your account has been successfully verified."
+
+  utter_incorrect_otp:
+    - text: "The OTP you entered is incorrect. Please try again."
+
+  utter_invalid_otp_action:
+    - text: "Invalid OTP action. Please try again."
+
+  utter_user_account_not_found:
+    - text: "I apologize, but we couldn't find your account."
+
+  utter_verify_account_creation:
+    - text: "Please verify your account creation details."
+
+  utter_account_verification_failed:
+    - text: "Sorry, we couldn't verify your account. Please check the OTP and try again."
+
+  utter_authentication_failed:
+    - text: "Sorry, we couldn't verify your account. Please check the OTP and try again."
+
+  utter_account_authentication_retry_failed:
+    - text: "Sorry, we couldn't verify your account. Please check the OTP and try again."
+
+  utter_ask_account_auth_retry_type:
+    - text: "How would you like to proceed?"
+      buttons:
+        - payload: "/SetSlots(account_auth_retry_type=new_phone_number)"
+          title: "Try with a different phone number"
+        - payload: "/SetSlots(account_auth_retry_type=cancel)"
+          title: "Cancel appointment"
+
+  utter_user_not_found:
+    - text: "I apologize, but we couldn't find your account. Please try again."
+
+  utter_cannot_initiate_authentication_flow:
+    - text: "I can help you authentication account as part of the booking process.\nBut first please let me know."
+
+  utter_cannot_initiate_gather_booking_data_flow:
+    - text: "I'll let you provide the patient's information as part of the booking process.\nBut first please let me know."
+
+  # Payment Related
+  utter_ask_for_adding_payment_method:
+    - text: "Would you like to add a payment method?"
+
+  utter_ask_payment_otp:
+    - text: "Please provide the otp you received from your bank."
+
+  utter_ask_card_holder_name:
+    - text: "Please enter the card holder's name."
+
+  utter_ask_card_number:
+    - text: "Please enter the card number."
+
+  utter_ask_card_expiry_month:
+    - text: "Please enter the expiry month of the card (e.g., 01, 02, etc.)."
+
+  utter_ask_card_expiry_year:
+    - text: "Please enter the expiry year of the card (e.g., 2025)"
+
+  utter_ask_card_cvv:
+    - text: "Please enter the 3-digit security code (CVV) on the back of the card."
+
+  utter_payment_success:
+    - text: "Your payment has been successfully processed. Thank you!"
+
+  utter_payment_failed:
+    - text: "Sorry, the payment could not be processed. Please try again."
+
+  utter_payment_unsuccessful:
+    - text: "Sorry, the payment could not be processed. Please try again."
+
+  utter_specialized_service_payment_failed:
+    - text: "Sorry, the payment for specialized service could not be processed. Please try again."
+
+  utter_booking_with_payment_confirm:
+    - text: "Please confirm your booking with payment."
+
+  utter_payment_collection_failed:
+    - text: "I couldn't collect your payment information. Please try again with valid card details."
+
+  utter_payment_method_added:
+    - text: "Your payment method has been successfully added to your account."
+
+  utter_invalid_payment_otp:
+    - text: "The OTP you entered is invalid."
+
+  utter_payment_request_failed:
+    - text: "Sorry, we couldn't process your payment. Please try again with a different card."
+
+  utter_insufficient_funds:
+    - text: "Sorry, you do not have enough funds in your account to make this payment.Add funds to your account and try booking again."
+
+  utter_cannot_initiate_payment_flow:
+    - text: "I'll guide you through the payment step as part of the booking process if needed.\nBut first please let me know."
+
+
+  # Booking Confirmation
+  utter_ask_for_booking:
+    - text: "Would you like to proceed with the booking?"
+
+  utter_need_booking_info:
+    - text: "Please provide the necessary information for booking."
+
+  utter_ask_booking_without_payment_confirm:
+    - text: "Please confirm your booking without payment."
+
+  utter_ask_conform_booking_with_payment:
+    - text: "{selected_clinic} will charge you ₹{clinic_fee} for booking this appointment. Would you like to book one?"
+      buttons:
+        - payload: "/SetSlots(conform_booking_with_payment=true)"
+          title: "Yes, confirm"
+        - payload: "/SetSlots(conform_booking_with_payment=false)"
+          title: "No, cancel"
+
+  utter_conform_booking_without_payment:
+    - text: "Please confirm your booking with {selected_clinic}."
+      buttons:
+        - payload: "/SetSlots(conform_booking=true)"
+          title: "Yes, confirm"
+        - payload: "/SetSlots(conform_booking=false)"
+          title: "No, cancel"
+
+  utter_appointment_success:
+    - text: "Your appointment has been successfully booked!"
+
+  utter_appointment_failed:
+    - text: "Sorry, we couldn't book your appointment. Please try again."
+
+  utter_specialized_service_appointment_success:
+    - text: "Your specialized service appointment has been successfully booked!"
+
+  utter_specialized_service_appointment_failed:
+    - text: "Sorry, we couldn't book your specialized service appointment. Please try again."
+
+  utter_booking_cancellation:
+    - text: "Your booking has been cancelled."
+
+  utter_cannot_initiate_booking_flow:
+    - text: "I can help you book an appointment as part of the booking process.\nBut first please let me know."
+
+  utter_ask_appointment_action:
+    - text: "Sorry, the appointment slot {appointment_date} at {appointment_time} is no longer available.Please select one of the following options to proceed with your appointment booking."
+      buttons:
+        - payload: "/SetSlots(appointment_action=reschedule)"
+          title: "Reschedule appointment"
+        - payload: "/SetSlots(appointment_action=cancel)"
+          title: "Cancel appointment"
+
+  utter_appointment_booking_cancelled:
+    - text: "Your appointment for {appointment_date} at {appointment_time} with {selected_clinic} has been cancelled.Your payment will be refunded shortly."
+
+
+  # Error and Status Messages
+  utter_server_unavailable:
+    - text: "I apologize, but the server is currently unavailable. Please try again later."
+
+  utter_ask_reason_out_of_scope:
+    - text: "Sorry, the requested service is out of our scope. Please try again with a different service."
+
+  utter_invalid_response:
+    - text: "I'm sorry, I didn't understand your response. Please try again."
+
+  utter_booking_payment_is_required:
+    - text: "Payment is required for appointment with {selected_clinic}."
+
+  utter_ask_payment_retry_type:
+    - text: "How would you like to proceed?"
+      buttons:
+        - payload: "/SetSlots(payment_retry_type=new_card)"
+          title: "Try with a different card"
+        - payload: "/SetSlots(payment_retry_type=same_card)"
+          title: "Try with the same card"
+        - payload: "/SetSlots(payment_retry_type=cancel)"
+          title: "Cancel appointment"

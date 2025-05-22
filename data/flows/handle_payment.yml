@@ -1,0 +1,126 @@
+flows:
+  make_payment:
+    description: "This flow manages the payment process for users booking a appointment which requires payment. After receiving a payment requirement, this flow processes the payment transaction using the payment method information previously collected. If the payment is successful, the flow sets a payment_status slot to 'success' and directs to the post-payment flow. In the event of a payment failure, the flow provides clear feedback and offer options for retrying the payment with either the same card or a different card."
+    persisted_slots:
+      - payment_retry_type
+    steps:
+      - set_slots:
+          - current_flow: "make_payment"
+      - action: action_check_required_slots_available
+        next:
+          - if: "slots.slots_available == 'success'"
+            then:
+              - action: action_send_payment_request
+                next:
+                  - if: "slots.request_payment == 'success'"
+                    then:
+                      - collect: payment_otp
+                        description: "Payment OTP"
+                        ask_before_filling: true
+                      - action: action_verify_payment_otp
+                        next:
+                          - if: "slots.payment_status == 'success'"
+                            then:
+                              - link: booking_after_payment
+                          - if: "slots.payment_status == 'error' and slots.nsf is trrue"
+                            then:
+                              - action: utter_insufficient_funds
+                                next: END
+                          - if: "slots.payment_status == 'error' and slots.otp_status == 'invalid'"
+                            then:
+                              - action: utter_invalid_payment_otp
+                              - collect: payment_retry_type
+                                description: "Payment retry type"
+                                ask_before_filling: true
+                                next:
+                                  - if: "slots.payment_retry_type == 'new_card'"
+                                    then:
+                                      - link: payment_retry_new_card
+                                  - if: "slots.payment_retry_type == 'same_card'"
+                                    then:
+                                      - link: payment_retry_same_card
+                                  - else:
+                                      - action: utter_booking_cancellation
+                                        next: END
+                          - if: "slots.unknown_error is true"
+                            then:
+                              - action: utter_unknown_error
+                              - action: action_reset_slots
+                                next: END
+                          - else:
+                              - action: utter_server_unavailable
+                                next: END
+                  - if: "slots.reached_clinic == 'success' and slots.request_payment == 'error'"
+                    then:
+                      - action: utter_payment_request_failed
+                        next: END
+                  - if: "slots.unknown_error is true"
+                    then:
+                      - action: utter_unknown_error
+                      - action: action_reset_slots
+                        next: END
+                  - else:
+                      - action: utter_server_unavailable
+                      - action: action_reset_slots
+                        next: END
+          - else:
+              - action: utter_cannot_initiate_payment_flow
+              - link: collect_service_type
+
+
+  payment_retry_new_card:
+    description: "This flow handles the process of retrying a failed payment using a new payment card during the appointment booking process."
+    steps:
+      - set_slots:
+          - current_flow: "payment_retry_new_card"
+      - action: action_check_required_slots_available
+        next:
+          - if: "slots.slots_available == 'success'"
+            then:
+              - call: collect_card_details
+              - action: action_send_payment_request
+                next:
+                  - if: "slots.request_payment == 'success'"
+                    then:
+                      - collect: payment_otp
+                        description: "Payment OTP"
+                        ask_before_filling: true
+                      - action: action_verify_payment_otp
+                        next:
+                          - if: "slots.payment_status == 'success'"
+                            then:
+                              - link: booking_after_payment
+                          - else:
+                              - action: utter_appointment_failed
+                                next: END
+                  - else:
+                      - action: utter_payment_failed
+                        next: END
+          - else:
+              - action: utter_cannot_initiate_payment_flow
+              - link: collect_service_type
+
+
+  payment_retry_same_card:
+    description: "This flow handles the process of retrying a payment using the same card after an initial payment failure during the booking process."
+    steps:
+      - set_slots:
+          - current_flow: "payment_retry_same_card"
+      - action: action_check_required_slots_available
+        next:
+          - if: "slots.slots_available == 'success'"
+            then:
+              - collect: payment_otp
+                description: "Payment OTP"
+                ask_before_filling: true
+              - action: action_verify_payment_otp
+                next:
+                  - if: "slots.payment_status == 'success'"
+                    then:
+                      - link: booking_after_payment
+                  - else:
+                      - action: utter_payment_failed
+                        next: END
+          - else:
+              - action: utter_cannot_initiate_payment_flow
+              - link: collect_service_type

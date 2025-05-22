@@ -1,0 +1,53 @@
+flows:
+  clinic_selection:
+    description: "This flow handles the clinic selection and appointment scheduling process. It guides users through selecting a clinic from recommended options and validates their selection. It also allows users choosing their preferred appointment date and time, and verifies slot availability. Upon successful slot confirmation, it proceeds to the next booking stage. If the selected slot is unavailable, it initiates the alternative slot suggestion process."
+    persisted_slots:
+      - selected_clinic
+      - appointment_date
+      - appointment_time
+    steps:
+      - set_slots:
+          - current_flow: clinic_selection
+      - action: action_check_required_slots_available
+        next:
+          - if: "slots.slots_available == 'success'"
+            then:
+              - id: selected_clinic
+                collect: selected_clinic
+                description: "Selected clinic from the recommended options"
+                ask_before_filling: true
+              - action: action_validate_clinic_selection
+                next:
+                  - if: "slots.selected_clinic and slots.invalid_clinic is false"
+                    then:
+                      - action: utter_confirm_selected_clinic
+                      - id: appointment_date
+                        collect: appointment_date
+                        description: "Preferred appointment date"
+                        ask_before_filling: true
+                      - action: action_validate_appointment_date
+                      - id: appointment_time
+                        collect: appointment_time
+                        description: "Preferred appointment time"
+                        ask_before_filling: true
+                      - action: action_check_appointment_slot
+                        next:
+                          - if: "slots.is_available == 'available'"
+                            then:
+                              - link: gather_booking_data
+                          - else:
+                              - link: suggest_alternative_slots
+                  - if: "slots.invalid_clinic_name is true"
+                    then:
+                      - action: utter_invalid_clinic_name_selection
+                        next: selected_clinic
+                  - if: "slots.invalid_clinic_number is true"
+                    then:
+                      - action: utter_invalid_clinic_number_selection
+                        next: selected_clinic
+                  - else:
+                      - action: utter_service_not_available
+                        next: END
+          - else:
+              - action: utter_cannot_initiate_clinic_selection_flow
+              - link: collect_service_type

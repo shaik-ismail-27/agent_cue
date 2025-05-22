@@ -1,0 +1,12 @@
+flows:
+  get_location:
+    description: "This flow collects the preferred location of the clinic from the user and sets the city and state slots."
+    steps:
+      - collect: location
+        description: "collect the city and state of the clinic."
+        ask_before_filling: true
+      - action: action_set_city_state
+      - collect: city
+        description: "City where the user wants to book an appointment"
+      - collect: state
+        description: "State where the user wants to book an appointment"

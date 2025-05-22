@@ -1,0 +1,157 @@
+flows:
+  start_account_creation:
+    description: "This flow handles user account creation and payment method setup. It collects payment information including card number, expiration date, and CVV. The flow validates and registers the payment method for future use. Upon successful registration, it returns to the booking process; otherwise, it provides clear error feedback and next steps."
+    persisted_slots:
+      - user_name
+      - user_age
+      - user_phone_number
+      - otp
+      - card_holder_name
+      - card_number
+      - card_expiry_month
+      - card_expiry_year
+      - card_cvv
+      - account_creation
+      - payment_method
+      - create_account_permission
+      - create_account_with_payment_permission
+    steps:
+      - set_slots:
+          - current_flow: start_account_creation
+          - create_account_permission: true
+          - create_account_with_payment_permission: true
+      - action: action_check_required_slots_available
+        next:
+          - if: "slots.slots_available == 'success'"
+            then:
+              - collect: user_name
+                description: "User's full name"
+                ask_before_filling: true
+              - collect: user_age
+                description: "User's age"
+                ask_before_filling: true
+              - collect: user_phone_number
+                description: "User's phone number"
+                ask_before_filling: true
+              - action: action_check_account_payment_method_needed
+                next:
+                  - if: "slots.payment_required is true"
+                    then:
+                      - call: collect_card_details
+                      - action: action_create_account
+                        next:
+                          - if: "slots.account_creation == 'initiated'"
+                            then:
+                              - collect: otp
+                                description: "OTP for account verification"
+                                ask_before_filling: true
+                              - action: action_create_account
+                                next:
+                                  - if: "slots.account_creation == 'success'"
+                                    then:
+                                      - action: utter_account_created
+                                      - action: action_add_payment_method
+                                        next:
+                                          - if: "slots.payment_method == 'success'"
+                                            then:
+                                              - action: utter_payment_method_added
+                                              - link: book_appointment
+                                          - else:
+                                              - set_slots:
+                                                - payment_method: "failed"
+                                              - action: utter_payment_failed
+                                                next: END
+                                  - if: "slots.reached_clinic == 'success' and slots.user_exists is true"
+                                    then:
+                                      - action: utter_user_exists
+                                        next: END
+                                  - if: "slots.reached_clinic == 'success' and invalid_otp == 'success'"
+                                    then:
+                                      - action: utter_invalid_otp
+                                        next: END
+                                  - if: "slots.unknown_error is true"
+                                    then:
+                                      - action: utter_unknown_error
+                                        next: END
+                                  - else:
+                                      - action: utter_server_unavailable
+                                        next: END
+                          - if: "slots.reached_clinic == 'success' and slots.user_exists is true"
+                            then:
+                              - action: utter_user_exists
+                                next: END
+                          - if: "slots.unknown_error is true"
+                            then:
+                              - action: utter_unknown_error
+                              - action: action_reset_slots
+                                next: END
+                          - else:
+                              - action: utter_server_unavailable
+                              - action: action_reset_slots
+                                next: END
+                  - else:
+                      - action: action_create_account
+                        next:
+                          - if: "slots.account_creation == 'success'"
+                            then:
+                              - collect: otp
+                                description: "OTP for account verification"
+                                ask_before_filling: true
+                              - action: action_create_account
+                                next:
+                                  - if: "slots.account_creation == 'success'"
+                                    then:
+                                      - action: "utter_account_created"
+                                      - link: book_appointment
+                                  - if: "slots.reached_clinic == 'success' and slots.user_exists is true"
+                                    then:
+                                      - action: utter_user_exists
+                                        next: END
+                                  - if: "slots.reached_clinic == 'success' and invalid_otp == 'success'"
+                                    then:
+                                      - action: utter_invalid_otp
+                                        next: END
+                                  - if: "slots.unknown_error is true"
+                                    then:
+                                      - action: utter_unknown_error
+                                      - action: action_reset_slots
+                                        next: END
+                                  - else:
+                                      - action: utter_server_unavailable
+                                      - action: action_reset_slots
+                                        next: END
+                          - else:
+                              - set_slots:
+                                 - account_creation: "failed"
+                              - action: utter_account_creation_failed
+                                next: END
+          - else:
+              - action: utter_cannot_initiate_account_creation_flow
+              - link: collect_service_type
+
+
+  collect_card_details:
+    description: "This flow is dedicated to the collection of payment card details during the appointment booking process. When a clinic or service requires payment, this flow is triggered to collect the user's payment information. The flow systematically collects the card number, expiration date (month and year), and security code (CVV) in a structured and user-friendly manner."
+    persisted_slots:
+      - card_holder_name
+      - card_number
+      - card_expiry_month
+      - card_expiry_year
+      - card_cvv
+
+    steps:
+      - collect: card_holder_name
+        description: "Card holder's name"
+        ask_before_filling: true
+      - collect: card_number
+        description: "Credit card number"
+        ask_before_filling: true
+      - collect: card_expiry_month
+        description: "Card expiry month"
+        ask_before_filling: true
+      - collect: card_expiry_year
+        description: "Card expiry year"
+        ask_before_filling: true
+      - collect: card_cvv
+        description: "Card CVV security code"
+        ask_before_filling: true
