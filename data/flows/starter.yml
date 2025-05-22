@@ -7,7 +7,7 @@ flows:
       - link: "collect_service_type"
 
   collect_service_type:
-    description: "collects the service type(general_health or specialized) from the user and starts the appropriate flow"
+    description: "This flow collects the service type(general_health or specialized) from the user and starts the appropriate flow"
     persisted_slots:
       - selected_service_type
     steps:

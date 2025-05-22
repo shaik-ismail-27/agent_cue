@@ -663,7 +663,7 @@ def book_appointment():
     logger.info(f"Booking appointment with data: {data}")
     
     # Check if appointment time is 12:00 PM
-    if appointment_time == "12:00 PM":
+    if appointment_time == "12:00 PM" or appointment_time == "12 PM":
         response = {
             "status": "error",
             "confirmed": False,
