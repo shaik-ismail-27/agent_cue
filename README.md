@@ -1,5 +1,7 @@
 # Rasa Agent Project
 
+![Cue Logo](Cue.png)
+
 This repository contains a Rasa conversational AI agent.
 
 ## Disclamer
