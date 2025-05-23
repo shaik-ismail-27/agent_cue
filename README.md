@@ -66,6 +66,19 @@ This project is configured to work with GitHub Codespaces, providing a fully con
    
    This will automatically start both the Rasa server and the actions server, and open the UI in your browser.
 
+### Accessing the UI
+
+When running the agent, you might encounter browser popup blocking. You have two options:
+
+1. **Allow Popups**
+   - When prompted, allow popups for the Codespaces domain
+   - The UI should open automatically in a new tab
+
+2. **Manual Access**
+   - Look for the "Ports" tab in the bottom panel of VS Code
+   - Find port 5005 (Rasa Server)
+   - Hover over the port and click the globe icon 🌐 to open in your browser
+
 ### Important Notes
 
 1. The models directory is not included in this repository. You will need to train your own model using `rasa train` before running the agent.

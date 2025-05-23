@@ -21,17 +21,10 @@
 			"openFiles": ["README.md"]
 		}
 	},
-	"forwardPorts": [5005, 5055, 5006],
+	"forwardPorts": [5005],
 	"portsAttributes": {
 		"5005": {
 			"label": "Rasa Server",
-			"onAutoForward": "openBrowser"
-		},
-		"5055": {
-			"label": "Actions Server"
-		},
-		"5006": {
-			"label": "Rasa Inspect UI",
 			"onAutoForward": "openBrowser"
 		}
 	}
