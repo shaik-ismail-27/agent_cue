@@ -64,7 +64,7 @@ This project is configured to work with GitHub Codespaces, providing a fully con
      ```
    - Run Rasa Inspect: `rasa inspect`
    
-   This will automatically start both the Rasa server and the actions server, and open the UI in your browser.
+   This will automatically start both the Rasa server and the actions server.
 
 ### Accessing the UI
 
