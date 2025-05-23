@@ -116,7 +116,7 @@ The script will:
 For testing the agent's functionality, use the following credentials and scenarios:
 
 #### Time Slots
-- 12:30 PM is always not available
+- 12:30 PM is initially not available
 - 12:00 PM is initially available but becomes unavailable by the time user reaches the final booking step
 
 #### Authentication
