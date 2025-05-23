@@ -47,26 +47,28 @@ This project is configured to work with GitHub Codespaces, providing a fully con
 
 ### Using Codespaces
 
-1. Click the "Code" button on the repository page
-2. Select the "Codespaces" tab
-3. Click "Create codespace on main"
-4. Wait for the environment to build (this may take a few minutes)
-5. Once loaded, you can:
-   - Train the model: `rasa train`
-   - Set up backend server:
-     ```bash
-     # Install Flask and CORS
-     pip install flask flask-cors
-     
-     # Navigate to backend directory
-     cd backend
-     
-     # Start the backend server
-     python server.py
-     ```
-   - Run Rasa Inspect: `rasa inspect`
-   
-   This will automatically start both the Rasa server and the actions server.
+1. Go to the repository on GitHub
+2. Click the "Code" button
+3. Select the "Codespaces" tab
+4. Click "Create codespace on main"
+5. Create a `.env` file in the root directory by copying `.env.example`:
+   ```bash
+   cp .env.example .env
+   ```
+   Then edit the `.env` file and replace the placeholders with your actual API keys and licenses:
+   ```
+   # Replace these with your actual values
+   OPENAI_API_KEY=your_openai_api_key_here
+   RASA_PRO_LICENSE=your_rasa_pro_license_key
+   ```
+6. Start the Rasa server using the provided script:
+   ```bash
+   .devcontainer/start-rasa.sh
+   ```
+   This script will:
+   - Start the Rasa server
+   - Train the model if needed
+   - Set up the necessary environment
 
 ### Accessing the UI
 
