@@ -41,6 +41,22 @@ Then source the environment variables:
 source .env
 ```
 
+## Using Rasa Inspector
+
+This project uses Rasa Inspector, a built-in UI tool in Rasa Pro, to interact with the bot. After training the model, you can start Rasa Inspector using:
+
+```bash
+rasa inspect
+```
+
+### Local Setup
+- Running the command in the root directory will automatically open a new browser tab with Rasa Inspector
+- You can interact with the bot directly through this interface
+- The inspector provides a chat-like interface where you can test conversations and see the bot's responses
+
+### GitHub Codespaces
+For accessing Rasa Inspector in GitHub Codespaces, please refer to the [Accessing the UI](#accessing-the-ui) section below.
+
 ## Running with GitHub Codespaces
 
 This project is configured to work with GitHub Codespaces, providing a fully configured development environment in the cloud.
