@@ -83,7 +83,7 @@ When running the agent, you might encounter browser popup blocking. You have two
 
 1. The models directory is not included in this repository. You will need to train your own model using `rasa train` before running the agent.
 
-2. The startup script and Rasa commands must be run from the `agent_cue` directory. The script will automatically try to navigate to the correct directory if needed.
+2. Make sure you're in the root(agent_cue) directory of the project when running Rasa commands.
 
 ### Installation Note
 
@@ -106,7 +106,6 @@ For convenience, a startup script is included that will automatically train a mo
 ```
 
 The script will:
-- Check and navigate to the correct directory if needed
 - Install Rasa Pro if not already installed
 - Train a model if none exists
 - Start Rasa Inspect with proper CORS settings
