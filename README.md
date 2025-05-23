@@ -20,7 +20,6 @@ Before running the agent, you need to set up the following API keys:
 
 1. **Rasa Pro License Key**
    - Get a free developer license from [Rasa Pro Developer Edition](https://rasa.com/rasa-pro-developer-edition-license-key-request/)
-   - This license allows up to 1000 conversations per month
 
 2. **OpenAI API Key**
    - Get your API key from [OpenAI Platform](https://platform.openai.com/api-keys) with credits.
@@ -170,11 +169,11 @@ If you prefer local development, follow these steps:
 
 6. **Set Up Backend Server**
    ```bash
-   # Navigate to backend directory
-   cd backend
-
    # Install Flask and CORS
    pip install flask flask-cors
+
+   # Navigate to backend directory
+   cd backend
 
    # Start the backend server
    python server.py
