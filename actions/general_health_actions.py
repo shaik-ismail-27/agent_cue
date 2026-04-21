@@ -51,10 +51,15 @@ class ActionRecommendGeneralCheckupClinics(Action):
                 
                 for idx, clinic in enumerate(shown_clinics, 1):
                     clinics_list += f"{idx}. {clinic['name']}\n"
-                    clinics_list += f"   Rating: {clinic['rating']} ⭐\n"
+                    clinics_list += f"   Rating: {clinic['rating']} \u2b50\n"
                     clinics_list += f"   Address: {clinic['address']}\n"
                     clinics_list += f"   Hours: {clinic['hours']}\n"
                     clinics_list += f"   Waiting Time: {clinic['waiting_time']}\n"
+                    
+                    # Add doctor information if available
+                    if 'doctors' in clinic and clinic['doctors']:
+                        doctor = clinic['doctors'][0]  # Show only top doctor
+                        clinics_list += f"   Doctor: {doctor['name']} ({doctor['specialization']}, {doctor['experience']})\n"
                     
                     # Check if clinic requires payment and if the service is free
                     clinic_fee = 0
@@ -62,12 +67,19 @@ class ActionRecommendGeneralCheckupClinics(Action):
                         clinics_list += f"   Price: Free (No payment required)\n\n"
                     else:
                         clinic_fee = clinic['price_list']['General Medicine']
-                        clinics_list += f"   Price: ₹{clinic_fee}\n\n"
+                        clinics_list += f"   Price: \u20b9{clinic_fee}\n\n"
                         
                     displayed_clinics.append(clinic['name'])  # Add clinic name to the list
                     clinics_fees.append(clinic_fee)  # Store the fee for this clinic
                 
-                dispatcher.utter_message(text=f"I found these clinics offering general health checkups in {city}, {state}:\n\n{clinics_list}")
+                # Send structured data for enhanced frontend rendering
+                import json
+                message = f"I found these clinics offering general health checkups in {city}, {state}:"
+                dispatcher.utter_message(text=message)
+                
+                # Send clinic data as a separate JSON message that frontend can parse
+                clinic_data_json = json.dumps({"clinics_data": shown_clinics, "type": "clinic_recommendation"})
+                dispatcher.utter_message(text=f"CLINIC_DATA:{clinic_data_json}")
                 
                 # Return slots including displayed clinics and their fees for mapping later
                 return [

@@ -64,38 +64,38 @@ available_slots = {
     "13-04-2025": ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "13:00", "13:30", "14:00", "14:30", "15:00"],
 }
 
-# General doctors
+# General doctors with enhanced information
 doctors = [
-    {"id": "doc1", "name": "Dr. Mark Evans", "specialization": "General Medicine", "price": 75},
-    {"id": "doc2", "name": "Dr. Sarah Johnson", "specialization": "Family Medicine", "price": 85},
-    {"id": "doc3", "name": "Dr. James Wilson", "specialization": "Internal Medicine", "price": 95},
-    {"id": "doc4", "name": "Dr. Anna White", "specialization": "General Medicine", "price": 70},
-    {"id": "doc5", "name": "Dr. Thomas Brown", "specialization": "Family Medicine", "price": 80},
-    {"id": "doc6", "name": "Dr. Emily Carter", "specialization": "Internal Medicine", "price": 90},
-    {"id": "doc7", "name": "Dr. William Davis", "specialization": "General Medicine", "price": 75},
-    {"id": "doc8", "name": "Dr. Olivia Martinez", "specialization": "Family Medicine", "price": 85},
-    {"id": "doc9", "name": "Dr. Benjamin Taylor", "specialization": "Internal Medicine", "price": 95},
-    {"id": "doc10", "name": "Dr. Sophia Anderson", "specialization": "General Medicine", "price": 70},
-    {"id": "doc61", "name": "Dr. Robert Johnson", "specialization": "General Medicine", "price": 75},
-    {"id": "doc62", "name": "Dr. Emma Williams", "specialization": "Family Medicine", "price": 85},
-    {"id": "doc63", "name": "Dr. Michael Davis", "specialization": "Internal Medicine", "price": 95},
-    {"id": "doc64", "name": "Dr. Olivia Clark", "specialization": "General Medicine", "price": 70},
-    {"id": "doc65", "name": "Dr. David Martinez", "specialization": "Family Medicine", "price": 80},
-    {"id": "doc66", "name": "Dr. Sophia Rodriguez", "specialization": "Internal Medicine", "price": 90},
-    {"id": "doc67", "name": "Dr. John Lee", "specialization": "General Medicine", "price": 75},
-    {"id": "doc68", "name": "Dr. Isabella Garcia", "specialization": "Family Medicine", "price": 85},
-    {"id": "doc69", "name": "Dr. William Brown", "specialization": "Internal Medicine", "price": 95},
-    {"id": "doc70", "name": "Dr. Ava Lopez", "specialization": "General Medicine", "price": 70},
-    {"id": "doc71", "name": "Dr. James Singh", "specialization": "Family Medicine", "price": 80},
-    {"id": "doc72", "name": "Dr. Charlotte Patel", "specialization": "Internal Medicine", "price": 90},
-    {"id": "doc73", "name": "Dr. Benjamin Kim", "specialization": "General Medicine", "price": 75},
-    {"id": "doc74", "name": "Dr. Mia Nguyen", "specialization": "Family Medicine", "price": 85},
-    {"id": "doc75", "name": "Dr. Daniel Chen", "specialization": "Internal Medicine", "price": 95},
-    {"id": "doc76", "name": "Dr. Elizabeth Wong", "specialization": "General Medicine", "price": 70},
-    {"id": "doc77", "name": "Dr. Matthew Smith", "specialization": "Family Medicine", "price": 80},
-    {"id": "doc78", "name": "Dr. Abigail Wilson", "specialization": "Internal Medicine", "price": 90},
-    {"id": "doc79", "name": "Dr. Ethan Taylor", "specialization": "General Medicine", "price": 75},
-    {"id": "doc80", "name": "Dr. Sofia Hernandez", "specialization": "Family Medicine", "price": 85},
+    {"id": "doc1", "name": "Dr. Mark Evans", "specialization": "General Medicine", "price": 75, "experience": "12 years", "image": "https://picsum.photos/seed/drevans/200/200.jpg", "education": "MD - Harvard Medical School", "languages": ["English", "Spanish"]},
+    {"id": "doc2", "name": "Dr. Sarah Johnson", "specialization": "Family Medicine", "price": 85, "experience": "15 years", "image": "https://picsum.photos/seed/drsjohnson/200/200.jpg", "education": "MD - Johns Hopkins University", "languages": ["English", "French"]},
+    {"id": "doc3", "name": "Dr. James Wilson", "specialization": "Internal Medicine", "price": 95, "experience": "18 years", "image": "https://picsum.photos/seed/drwilson/200/200.jpg", "education": "MD - Mayo Clinic College", "languages": ["English", "German"]},
+    {"id": "doc4", "name": "Dr. Anna White", "specialization": "General Medicine", "price": 70, "experience": "10 years", "image": "https://picsum.photos/seed/drwhite/200/200.jpg", "education": "MD - Stanford University", "languages": ["English", "Mandarin"]},
+    {"id": "doc5", "name": "Dr. Thomas Brown", "specialization": "Family Medicine", "price": 80, "experience": "14 years", "image": "https://picsum.photos/seed/drbrown/200/200.jpg", "education": "MD - Yale School of Medicine", "languages": ["English"]},
+    {"id": "doc6", "name": "Dr. Emily Carter", "specialization": "Internal Medicine", "price": 90, "experience": "16 years", "image": "https://picsum.photos/seed/drcarter/200/200.jpg", "education": "MD - Columbia University", "languages": ["English", "Italian"]},
+    {"id": "doc7", "name": "Dr. William Davis", "specialization": "General Medicine", "price": 75, "experience": "11 years", "image": "https://picsum.photos/seed/drdavis/200/200.jpg", "education": "MD - UCLA School of Medicine", "languages": ["English", "Japanese"]},
+    {"id": "doc8", "name": "Dr. Olivia Martinez", "specialization": "Family Medicine", "price": 85, "experience": "13 years", "image": "https://picsum.photos/seed/drmartinez/200/200.jpg", "education": "MD - UC San Francisco", "languages": ["English", "Spanish", "Portuguese"]},
+    {"id": "doc9", "name": "Dr. Benjamin Taylor", "specialization": "Internal Medicine", "price": 95, "experience": "20 years", "image": "https://picsum.photos/seed/drtaylor/200/200.jpg", "education": "MD - University of Pennsylvania", "languages": ["English", "French"]},
+    {"id": "doc10", "name": "Dr. Sophia Anderson", "specialization": "General Medicine", "price": 70, "experience": "9 years", "image": "https://picsum.photos/seed/dranderson/200/200.jpg", "education": "MD - Duke University", "languages": ["English", "Russian"]},
+    {"id": "doc61", "name": "Dr. Robert Johnson", "specialization": "General Medicine", "price": 75, "experience": "12 years", "image": "https://picsum.photos/seed/drrobert/200/200.jpg", "education": "MD - Northwestern University", "languages": ["English"]},
+    {"id": "doc62", "name": "Dr. Emma Williams", "specialization": "Family Medicine", "price": 85, "experience": "14 years", "image": "https://picsum.photos/seed/dremma/200/200.jpg", "education": "MD - University of Chicago", "languages": ["English", "Spanish"]},
+    {"id": "doc63", "name": "Dr. Michael Davis", "specialization": "Internal Medicine", "price": 95, "experience": "17 years", "image": "https://picsum.photos/seed/drmichael/200/200.jpg", "education": "MD - Baylor College of Medicine", "languages": ["English", "Arabic"]},
+    {"id": "doc64", "name": "Dr. Olivia Clark", "specialization": "General Medicine", "price": 70, "experience": "8 years", "image": "https://picsum.photos/seed/drolivia/200/200.jpg", "education": "MD - University of Michigan", "languages": ["English", "Korean"]},
+    {"id": "doc65", "name": "Dr. David Martinez", "specialization": "Family Medicine", "price": 80, "experience": "15 years", "image": "https://picsum.photos/seed/drdavid/200/200.jpg", "education": "MD - Mount Sinai School of Medicine", "languages": ["English", "Spanish"]},
+    {"id": "doc66", "name": "Dr. Sophia Rodriguez", "specialization": "Internal Medicine", "price": 90, "experience": "19 years", "image": "https://picsum.photos/seed/drsophia/200/200.jpg", "education": "MD - NYU Grossman School", "languages": ["English", "Spanish", "French"]},
+    {"id": "doc67", "name": "Dr. John Lee", "specialization": "General Medicine", "price": 75, "experience": "10 years", "image": "https://picsum.photos/seed/drjohnlee/200/200.jpg", "education": "MD - Cornell University", "languages": ["English", "Mandarin", "Korean"]},
+    {"id": "doc68", "name": "Dr. Isabella Garcia", "specialization": "Family Medicine", "price": 85, "experience": "13 years", "image": "https://picsum.photos/seed/drisabella/200/200.jpg", "education": "MD - University of Texas", "languages": ["English", "Spanish"]},
+    {"id": "doc69", "name": "Dr. William Brown", "specialization": "Internal Medicine", "price": 95, "experience": "21 years", "image": "https://picsum.photos/seed/drwilliamb/200/200.jpg", "education": "MD - University of Washington", "languages": ["English", "German"]},
+    {"id": "doc70", "name": "Dr. Ava Lopez", "specialization": "General Medicine", "price": 70, "experience": "7 years", "image": "https://picsum.photos/seed/dralopez/200/200.jpg", "education": "MD - UC Davis School", "languages": ["English", "Spanish"]},
+    {"id": "doc71", "name": "Dr. James Singh", "specialization": "Family Medicine", "price": 80, "experience": "12 years", "image": "https://picsum.photos/seed/drjames/200/200.jpg", "education": "MD - University of Miami", "languages": ["English", "Hindi", "Punjabi"]},
+    {"id": "doc72", "name": "Dr. Charlotte Patel", "specialization": "Internal Medicine", "price": 90, "experience": "16 years", "image": "https://picsum.photos/seed/drcharlotte/200/200.jpg", "education": "MD - Emory University", "languages": ["English", "Gujarati"]},
+    {"id": "doc73", "name": "Dr. Benjamin Kim", "specialization": "General Medicine", "price": 75, "experience": "11 years", "image": "https://picsum.photos/seed/drbenjamin/200/200.jpg", "education": "MD - Boston University", "languages": ["English", "Korean"]},
+    {"id": "doc74", "name": "Dr. Mia Nguyen", "specialization": "Family Medicine", "price": 85, "experience": "14 years", "image": "https://picsum.photos/seed/drmia/200/200.jpg", "education": "MD - George Washington University", "languages": ["English", "Vietnamese"]},
+    {"id": "doc75", "name": "Dr. Daniel Chen", "specialization": "Internal Medicine", "price": 95, "experience": "18 years", "image": "https://picsum.photos/seed/drdaniel/200/200.jpg", "education": "MD - University of Maryland", "languages": ["English", "Mandarin", "Cantonese"]},
+    {"id": "doc76", "name": "Dr. Elizabeth Wong", "specialization": "General Medicine", "price": 70, "experience": "9 years", "image": "https://picsum.photos/seed/drelizabeth/200/200.jpg", "education": "MD - Ohio State University", "languages": ["English", "Cantonese"]},
+    {"id": "doc77", "name": "Dr. Matthew Smith", "specialization": "Family Medicine", "price": 80, "experience": "15 years", "image": "https://picsum.photos/seed/drmatthew/200/200.jpg", "education": "MD - University of North Carolina", "languages": ["English"]},
+    {"id": "doc78", "name": "Dr. Abigail Wilson", "specialization": "Internal Medicine", "price": 90, "experience": "17 years", "image": "https://picsum.photos/seed/drabigail/200/200.jpg", "education": "MD - University of Virginia", "languages": ["English", "French"]},
+    {"id": "doc79", "name": "Dr. Ethan Taylor", "specialization": "General Medicine", "price": 75, "experience": "10 years", "image": "https://picsum.photos/seed/drethan/200/200.jpg", "education": "MD - Vanderbilt University", "languages": ["English", "Japanese"]},
+    {"id": "doc80", "name": "Dr. Sofia Hernandez", "specialization": "Family Medicine", "price": 85, "experience": "13 years", "image": "https://picsum.photos/seed/drsofia/200/200.jpg", "education": "MD - University of Colorado", "languages": ["English", "Spanish", "Portuguese"]},
 ]
 
 # Add specialized doctors with expanded specializations and fixed prices
@@ -175,7 +175,10 @@ clinics = {
         },
         "waiting_time": "15-20 minutes",
         "specializations": ["General Medicine", "Family Medicine"],
-        "requires_payment": True
+        "requires_payment": True,
+        "doctors": [
+            {"id": "doc1", "name": "Dr. Mark Evans", "specialization": "General Medicine", "experience": "12 years", "image": "https://picsum.photos/seed/drevans/200/200.jpg", "education": "MD - Harvard Medical School", "languages": ["English", "Spanish"], "rating": 4.8}
+        ]
     },
     "Downtown Family Care": {
         "rating": 4.5,
@@ -199,7 +202,10 @@ clinics = {
         "waiting_time": "20-30 minutes",
         "specializations": ["Family Medicine", "Internal Medicine"],
         "requires_payment": False,
-        "free_services": ["General Medicine"]
+        "free_services": ["General Medicine"],
+        "doctors": [
+            {"id": "doc2", "name": "Dr. Sarah Johnson", "specialization": "Family Medicine", "experience": "15 years", "image": "https://picsum.photos/seed/drsjohnson/200/200.jpg", "education": "MD - Johns Hopkins University", "languages": ["English", "French"], "rating": 4.7}
+        ]
     },
     "Good Health Clinic": {
         "rating": 4.8,
@@ -268,7 +274,10 @@ clinics = {
         },
         "waiting_time": "15-25 minutes",
         "specializations": ["General Medicine", "Preventive Medicine"],
-        "requires_payment": True
+        "requires_payment": True,
+        "doctors": [
+            {"id": "doc10", "name": "Dr. Sophia Anderson", "specialization": "General Medicine", "experience": "9 years", "image": "https://picsum.photos/seed/dranderson/200/200.jpg", "education": "MD - Duke University", "languages": ["English", "Russian"], "rating": 4.5}
+        ]
     },
     "Heart & Vascular Center": {
         "rating": 4.9,
