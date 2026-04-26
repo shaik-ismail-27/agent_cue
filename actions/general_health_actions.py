@@ -169,20 +169,23 @@ class ActionBookGeneralCheckupAppointment(Action):
                 appointment_id = response.get("appointment_id")
                 doctor = response.get("doctor", {})
                 
-                # Format success message
+                # Format success message with enhanced formatting
                 message = (
-                    f"Great! Your appointment has been booked successfully.\n"
-                    f"Appointment ID: {appointment_id}\n"
-                    f"Patient Name: {slots['patient_name']}\n"
+                    f"🎉 Appointment Confirmed Successfully!\n\n"
+                    f"📋 Appointment Details:\n"
+                    f"🆔 Appointment ID: {appointment_id}\n"
+                    f"👤 Patient Name: {slots['patient_name']}\n"
                 )
                 
                 if doctor:
-                    message += f"Doctor: {doctor.get('name')} ({doctor.get('specialization')})\n"
+                    message += f"👨‍⚕️ Doctor: {doctor.get('name')} ({doctor.get('specialization')})\n"
                 
                 message += (
-                    f"Clinic: {appointment_data['clinic']}\n"
-                    f"Date: {slots['appointment_date']}\n"
-                    f"Time: {appointment_data['time']}"
+                    f"🏥 Clinic: {appointment_data['clinic']}\n"
+                    f"📅 Date: {slots['appointment_date']}\n"
+                    f"⏰ Time: {appointment_data['time']}\n\n"
+                    f"✅ Please arrive 10 minutes before your appointment time.\n"
+                    f"📱 Bring your ID and any relevant medical documents."
                 )
                 
                 dispatcher.utter_message(text=message)
@@ -196,9 +199,15 @@ class ActionBookGeneralCheckupAppointment(Action):
                 logger.error(f"General checkup appointment booking failed: {error_type} - {error_message}")
                 
                 if error_type == "slot_unavailable":
+                    dispatcher.utter_message(
+                        text=f"❌ **Appointment Slot Not Available**\n\n"
+                        f"Sorry, this appointment slot is no longer available.\n"
+                        f"📅 The selected time has been booked by another patient.\n"
+                        f"🔄 Please choose a different time slot for your appointment."
+                    )
                     return [
                         SlotSet("booking_status", "failed"),
-                        SlotSet("rescheduling_reason", True)
+                        SlotSet("reached_clinic", "error")
                     ]
                 elif error_type == "clinic_unavailable":
                     dispatcher.utter_message(text="Sorry, the clinic is currently unavailable. Please try again later or choose a different clinic.")
@@ -213,8 +222,16 @@ class ActionBookGeneralCheckupAppointment(Action):
                         SlotSet("reached_clinic", "error")
                     ]
                 else:
-                    dispatcher.utter_message(text=f"Booking failed: {error_message}")
-                    return [SlotSet("booking_status", "failed"), SlotSet("reached_clinic", "success")]
+                    dispatcher.utter_message(
+                        text=f"Booking Failed\n\n"
+                        f"Sorry, we couldn't book your appointment at this time.\n"
+                        f"There might be a technical issue with our booking system.\n"
+                        f"Please try again in a few minutes or contact support."
+                    )
+                    return [
+                        SlotSet("booking_status", "failed"),
+                        SlotSet("reached_clinic", "error")
+                    ]
                 
         except Exception as e:
             logger.error(f"Exception booking general checkup appointment: {str(e)}")

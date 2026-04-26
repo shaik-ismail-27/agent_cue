@@ -190,9 +190,14 @@ class ActionVerifyPaymentOTP(Action):
                 card_last4 = response.get("card_last4")
                 
                 dispatcher.utter_message(
-                    text=f"Payment processed successfully!\n"
-                    f"Amount: ₹{amount}\n"
-                    f"Transaction ID: {transaction_id}"
+                    text=f"💳 Payment Processed Successfully!\n\n"
+                    f"📋 Payment Details:\n"
+                    f"💰 Amount Paid: ₹{amount}\n"
+                    f"🆔 Transaction ID: {transaction_id}\n"
+                    f"💳 Card Type: {card_type}\n"
+                    f"🔢 Card Ending: ****{card_last4}\n\n"
+                    f"✅ Your payment has been confirmed and your appointment is secured.\n"
+                    f"📧 A receipt has been sent to your registered email."
                 )
 
                 return [
@@ -259,8 +264,18 @@ class ActionCheckPaymentStatus(Action):
         if payment_status == "success":
             return [SlotSet("payment_status", "success")]
         elif payment_status == "failed":
-            dispatcher.utter_message(text="There was an issue with your payment. Please try again.")
+            dispatcher.utter_message(
+                text=f"❌ Payment Failed\n\n"
+                f"There was an issue processing your payment.\n"
+                f"💳 Please check your card details and try again.\n"
+                f"🔄 You can retry the payment or choose a different payment method."
+            )
             return [SlotSet("payment_status", "failed")]
         else:
-            dispatcher.utter_message(text="Your payment is still being processed.")
+            dispatcher.utter_message(
+                text=f"⏳ Payment Processing\n\n"
+                f"Your payment is currently being processed.\n"
+                f"⏱️ This usually takes a few minutes.\n"
+                f"📱 You will receive a confirmation once it's complete."
+            )
             return [SlotSet("payment_status", "pending")] 

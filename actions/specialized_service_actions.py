@@ -194,21 +194,25 @@ class ActionBookSpecialistAppointment(Action):
                 appointment_id = response.get("appointment_id")
                 doctor = response.get("doctor", {})
                 
-                # Format success message
+                # Format success message with enhanced formatting
                 message = (
-                    f"Great! Your specialized appointment has been booked successfully.\n"
-                    f"Appointment ID: {appointment_id}\n"
-                    f"Patient Name: {slots['patient_name']}\n"
+                    f"🎉 Specialized Appointment Confirmed Successfully!\n\n"
+                    f"📋 Appointment Details:\n"
+                    f"🆔 Appointment ID: {appointment_id}\n"
+                    f"👤 Patient Name: {slots['patient_name']}\n"
                 )
                 
                 if doctor:
-                    message += f"Doctor: {doctor.get('name')} ({doctor.get('specialization')})\n"
+                    message += f"👨‍⚕️ Doctor: {doctor.get('name')} ({doctor.get('specialization')})\n"
                 
                 message += (
-                    f"Clinic: {appointment_data['clinic']}\n"
-                    f"Service: {appointment_data['specialization']}\n"
-                    f"Date: {slots['appointment_date']}\n"
-                    f"Time: {appointment_data['time']}"
+                    f"🏥 Clinic: {appointment_data['clinic']}\n"
+                    f"⚕️ Service: {appointment_data['specialization']}\n"
+                    f"📅 Date: {slots['appointment_date']}\n"
+                    f"⏰ Time: {appointment_data['time']}\n\n"
+                    f"✅ Please arrive 15 minutes before your appointment time.\n"
+                    f"📱 Bring your ID, previous medical records, and insurance information.\n"
+                    f"💊 Bring any current medications you are taking."
                 )
                 
                 dispatcher.utter_message(text=message)
@@ -219,12 +223,15 @@ class ActionBookSpecialistAppointment(Action):
                 logger.error(f"Specialist appointment booking failed: {error_message}")
                 
                 if error_type == "slot_unavailable":
-                    dispatcher.utter_message(text="Sorry, this appointment slot is no longer available. Please choose a different time.")
+                    dispatcher.utter_message(
+                        text=f"❌ Specialist Appointment Slot Not Available\n\n"
+                        f"Sorry, this specialist appointment slot is no longer available.\n"
+                        f"📅 The selected time has been booked by another patient.\n"
+                        f"🔄 Please choose a different time slot for your specialist consultation."
+                    )
                     return [
                         SlotSet("booking_status", "failed"),
-                        SlotSet("appointment_time", None),
-                        SlotSet("rescheduling_reason", True),
-                        SlotSet("reached_clinic", "success")
+                        SlotSet("reached_clinic", "error")
                     ]
                 elif error_type == "clinic_unavailable":
                     dispatcher.utter_message(text="Sorry, the clinic is currently unavailable. Please try again later or choose a different clinic.")
@@ -239,7 +246,16 @@ class ActionBookSpecialistAppointment(Action):
                         SlotSet("reached_clinic", "error")
                     ]
                 else:
-                    return [SlotSet("booking_status", "failed"),SlotSet("reached_clinic", "success"),SlotSet("appointment_date", None),SlotSet("appointment_time", None),SlotSet("rescheduling_reason", True)]
+                    dispatcher.utter_message(
+                        text=f"❌ **Specialist Booking Failed**\n\n"
+                        f"Sorry, we couldn't book your specialist appointment at this time.\n"
+                        f"🔧 There might be a technical issue with our booking system.\n"
+                        f"🔄 Please try again in a few minutes or contact support."
+                    )
+                    return [
+                        SlotSet("booking_status", "failed"),
+                        SlotSet("reached_clinic", "error")
+                    ]
                 
         except Exception as e:
             logger.error(f"Exception booking specialist appointment: {str(e)}")

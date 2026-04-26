@@ -338,6 +338,8 @@
             border-radius: 18px;
             position: relative;
             word-wrap: break-word;
+            white-space: pre-wrap;
+            line-height: 1.6;
         }
 
         .message.bot .message-bubble {
@@ -922,6 +924,14 @@
             });
         }
 
+        function formatMessageWithLineBreaks(message) {
+            // Convert double line breaks to paragraph breaks
+            // Convert single line breaks to line breaks
+            return message
+                .replace(/\n\n/g, '<br><br>')
+                .replace(/\n/g, '<br>');
+        }
+
         function addMessage(message, isUser = false, isError = false, buttons = [], customData = null) {
             const messagesContainer = document.getElementById('messagesContainer');
             const messageDiv = document.createElement('div');
@@ -973,6 +983,9 @@
                     enhancedContent = window.ClinicRenderer.renderClinicsList(customData.clinics_data);
                     isClinicCard = true;
                     console.log('Enhanced content generated:', enhancedContent);
+                } else {
+                    // For regular messages, format with proper line breaks
+                    enhancedContent = formatMessageWithLineBreaks(message);
                 }
                 
                 messageDiv.innerHTML = `
@@ -982,7 +995,7 @@
                     <div class="message-content">
                         ${isClinicCard ? 
                             `<div class="clinic-message-container">
-                                <div class="clinic-intro">${message}</div>
+                                <div class="clinic-intro">${formatMessageWithLineBreaks(message)}</div>
                                 <div class="clinic-cards">${enhancedContent}</div>
                             </div>` :
                             `<div class="message-bubble">${enhancedContent}</div>`
